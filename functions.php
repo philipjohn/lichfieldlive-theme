@@ -42,3 +42,18 @@ function lichfieldlive_migrate_settings( $old_name, $old_theme = false ) {
 	}
 }
 add_action( 'after_switch_theme', 'lichfieldlive_migrate_settings', 10, 2 );
+
+/**
+ * Prevent comments from showing on pages.
+ *
+ * @param  int $count   Number of comments.
+ * @param  int $post_id ID of the post being checked for comments.
+ * @return int          Revised number of comments.
+ */
+function lichfieldlive_get_comments_number( $count, $post_id ) {
+	if ( 'page' === get_post_type( $post_id ) ) {
+		$count = 0;
+	}
+	return $count;
+}
+add_filter( 'get_comments_number', 'lichfieldlive_get_comments_number', 10, 2 );
