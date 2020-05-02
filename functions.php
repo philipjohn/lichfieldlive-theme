@@ -14,3 +14,21 @@ function lichfieldlive_enqueue_styles() {
 	);
 
 }
+
+/**
+ * Migrate theme settings when switching from Newspack to Lichfield Live child.
+ *
+ * @since Lichfield Live 0.2.0
+ */
+function lichfieldlive_migrate_settings( $old_name, $old_theme = false ) {
+	$theme           = wp_get_theme();
+	$old_stylesheet  = is_a( $old_theme, 'WP_Theme' ) ? $old_theme->get_stylesheet() : null;
+	$new_stylesheet  = $theme->get_stylesheet();
+	$newspack_prefix = 'newspack-';
+
+	$mods = get_option( 'theme_mods_' . $old_stylesheet, null );
+	if ( $mods ) {
+		update_option( 'theme_mods_' . $new_stylesheet, $mods );
+	}
+}
+add_action( 'after_switch_theme', 'lichfieldlive_migrate_settings', 10, 2 );
