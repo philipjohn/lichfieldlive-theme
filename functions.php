@@ -16,6 +16,16 @@ function lichfieldlive_enqueue_styles() {
 }
 
 /**
+ * Get the year the current content was first published.
+ *
+ * @return string Four-digit numerical year.
+ */
+function lichfieldlive_get_published_date() {
+	global $post;
+	return date( 'Y', strtotime( $post->post_date ) );
+}
+
+/**
  * Migrate theme settings when switching from Newspack to Lichfield Live child.
  *
  * @since Lichfield Live 0.2.0
